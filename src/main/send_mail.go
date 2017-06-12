@@ -15,6 +15,7 @@ var filename = flag.String("f", "", "file name")
 
 const (
     user      = "jiujiangyuan@qq.com"
+    // QQ邮箱授权码：http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=28&&no=1001256
     passwd    = ""
     smtphost  = "smtp.qq.com:587"
     to        = "jiujiangyuan@qq.com;873029024@qq.com"
@@ -37,6 +38,17 @@ func main() {
     <html>
     <body>
     <table border="1">
+    <tr>
+    <th>房屋id</th>
+    <th>小区id</th>
+    <th>单价</th>
+    <th>单价</th>
+    <th>总价</th>
+    <th>地址</th>
+    <th>关注情况</th>
+    <th>地铁</th>
+    <th>税费</th>
+    </tr>
     `
     endStr := `
     </table>
@@ -54,6 +66,7 @@ func main() {
     }
 
     body += endStr
+    fmt.Printf("format success, now sendmai\n")
 
     err = mail.SendMail(user, passwd, smtphost, to, subject, body, "html")
     if err != nil {

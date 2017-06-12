@@ -9,6 +9,7 @@ import (
     "log"
     "fmt"
     "path"
+    sj  "github.com/guyannanfei25/go-simplejson"
 )
 
 const (
@@ -25,21 +26,36 @@ var area        = flag.String("a", "haidian", "area you wanna, 比如：海淀�
 func main() {
     var buf bytes.Buffer
     flag.Parse()
-    errNum := 0
+    first := true
 
     for i := 1; i <= *maxNum; i++ {
         processUrl := fmt.Sprintf(urlPattern, *province, *area, i)
         doc, err := goquery.NewDocument(processUrl)
         if err != nil {
             log.Printf("url[%s] NewDocument err[%s]\n", processUrl, err)
-            errNum += 1
-            if errNum > 5 {
-                log.Printf("too many err\n")
-                break
-            }
             continue
         }
-        log.Printf("now errNum[%d]\n", errNum)
+
+        if first {
+            // find total num in case be forbidden
+            totalStr, ok := doc.Find("div.house-lst-page-box").Attr("page-data")
+            if !ok {
+                log.Printf("not found page-box\n")
+                continue
+            }
+
+            totalJson, err := sj.NewJson([]byte(totalStr))
+            if err != nil {
+                log.Printf("new json er[%s]\n", err)
+                continue
+            }
+
+            totalPage := totalJson.Get("totalPage").MustInt()
+            log.Printf("total page[%d]\n", totalPage)
+            *maxNum = totalPage
+
+            first = false
+        }
 
         doc.Find("li.clear").Each(func(i int, s *goquery.Selection) {
             id, ok := s.Find(".unitPrice").Attr("data-hid")
