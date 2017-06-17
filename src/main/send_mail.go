@@ -14,11 +14,11 @@ import (
 var filename = flag.String("f", "", "file name")
 
 const (
-    user      = "jiujiangyuan@qq.com"
+    user      = ""
     // QQ邮箱授权码：http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=28&&no=1001256
     passwd    = ""
     smtphost  = "smtp.qq.com:587"
-    to        = "jiujiangyuan@qq.com;873029024@qq.com"
+    to        = ""
 )
 
 func main() {
