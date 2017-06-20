@@ -13,7 +13,7 @@ import (
 )
 
 const (
-    urlPattern  = "http://%s.lianjia.com/ershoufang/%s/pg%dp3p4"
+    urlPattern  = "http://%s.lianjia.com/ershoufang/%s/pg%dnb1p3p4"
     fPattern    = "%s.ershoufang.%s.%s"
     timePattern = "2006-01-02"
 )
